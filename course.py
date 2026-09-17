@@ -45,7 +45,8 @@ target = "yjsxk.fudan.edu.cn"
 # 课程类别映射
 course_classification_dict = {
     "学位基础课": 8, "专业选修课": 8, "学位专业课": 8,
-    "公共选修课": 9, "第一外国语": 7, "政治理论课": 7, "专业外语": 7
+    "公共选修课": 9, "第一外国语": 7, "政治理论课": 7, "专业外语": 7,
+    "其他选修课": 10
 }
 
 # ==================== 以下代码不需要改 ====================
@@ -117,7 +118,8 @@ def request(ck, classification, course_ids, csrf_token):
         try:
             data = json.loads(response.text)
             msg = data.get("msg", "")
-            if "选课成功" in msg or "成功" in msg:
+            code = data.get("code", -1)
+            if code == 1 or "选课成功" in msg:
                 print("\n[{}] 选课成功！课程：{}，时间：{}".format(
                     datetime.datetime.now().strftime("%H:%M:%S"), course_id,
                     datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
